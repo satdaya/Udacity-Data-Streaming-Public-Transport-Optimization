@@ -33,41 +33,41 @@ def configure_connector():
     # Make sure to think about what an appropriate topic prefix would be, and how frequently Kafka
     # Connect should run this connector (hint: not very often!)
     logger.info("connector code not completed skipping connector creation")
-    resp = requests.post(
-        KAFKA_CONNECT_URL,
-        headers={"Content-Type": "application/json"},
-        data=json.dumps({
-            "name": CONNECTOR_NAME,
-            "config": {
-                "connector.class": "io.confluent.connect.jdbc.JdbcSourceConnector",
-                "key.converter": "org.apache.kafka.connect.json.JsonConverter",
-                "key.converter.schemas.enable": "false",
-                "value.converter": "org.apache.kafka.connect.json.JsonConverter",
-                "value.converter.schemas.enable": "false",
-                "batch.max.rows": "500",
+    #resp = requests.post(
+    #    KAFKA_CONNECT_URL,
+    #    headers={"Content-Type": "application/json"},
+    #    data=json.dumps({
+    #        "name": CONNECTOR_NAME,
+    #        "config": {
+    #            "connector.class": "io.confluent.connect.jdbc.JdbcSourceConnector",
+    #            "key.converter": "org.apache.kafka.connect.json.JsonConverter",
+    #            "key.converter.schemas.enable": "false",
+    #            "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+    #            "value.converter.schemas.enable": "false",
+    #            "batch.max.rows": "500",
     #            # TODO
-                "connection.url": "jdbc:postgresql://localhost:5432/cta",
+    #            "connection.url": "",
     #            # TODO
-                "connection.user": "cta_admin",
+    #            "connection.user": "",
     #            # TODO
-                "connection.password": "chicago",
+    #            "connection.password": "",
     #            # TODO
-                "table.whitelist": "stations",
+    #            "table.whitelist": "",
     #            # TODO
-                "mode": "incrementing",
+    #            "mode": "",
     #            # TODO
-                "incrementing.column.name": "stop_id",
+    #            "incrementing.column.name": "",
     #            # TODO
-                "topic.prefix": "cta_stations",
+    #            "topic.prefix": "",
     #            # TODO
-                "poll.interval.ms": "60000",
+    #            "poll.interval.ms": "",
     #        }
     #    }),
     #)
 
     ## Ensure a healthy response was given
-    resp.raise_for_status()
-    logging.debug("connector created successfully")
+    #resp.raise_for_status()
+    #logging.debug("connector created successfully")
 
 
 if __name__ == "__main__":
