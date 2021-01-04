@@ -10,6 +10,9 @@ from tornado import gen
 
 logger = logging.getLogger(__name__)
 
+SCHEMA_REGISTRY_URL: "http:localhost:8081"
+BROKER_URL: "PLAINTEXT://localhost:9092"
+               
 
 class KafkaConsumer:
     """Defines the base kafka consumer class"""
@@ -37,17 +40,18 @@ class KafkaConsumer:
         #
         #
         self.broker_properties = {
-                #
-                # TODO
-                #
+            "bootstrap.servers": BROKER_URL,
+            "group.id": "consumer-v1",
+            "auto.offset.reset" : "earliest",
+               
         }
 
         # TODO: Create the Consumer, using the appropriate type.
         if is_avro is True:
             self.broker_properties["schema.registry.url"] = "http://localhost:8081"
-            #self.consumer = AvroConsumer(...)
+            self.consumer = AvroConsumer(...)
         else:
-            #self.consumer = Consumer(...)
+            self.consumer = Consumer(...)
             pass
 
         #
