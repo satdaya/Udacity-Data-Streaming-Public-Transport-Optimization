@@ -41,7 +41,7 @@ class Turnstile(Producer):
             f"{com.udacity.turnstile}", # TODO: Come up with a better topic name
             key_schema=Turnstile.key_schema,
             value_schema=Turnstile.value_schema, T#ODO: Uncomment once schema is defined
-            num_partitions=10,
+            num_partitions=2,
             num_replicas=2,
         )
         self.station = station

@@ -40,7 +40,7 @@ class Weather(Producer):
             "com.udacity.weather", # TODO: Come up with a better topic name
             key_schema=Weather.key_schema,
             value_schema=Weather.value_schema,
-            number_of_partitions = 10,
+            number_of_partitions = 2,
             number_of_replicas = 2,
         )
 

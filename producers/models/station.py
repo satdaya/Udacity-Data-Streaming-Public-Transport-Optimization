@@ -37,12 +37,12 @@ class Station(Producer):
         # replicas
         #
         #
-        station_info = f"{station_name}" # TODO: Come up with a better topic name
+        station_info = f"{com.chicago.station.info}" # TODO: Come up with a better topic name
         super().__init__(
-            topic = station_info,
+            topic = com.chicago.station_info,
             key_schema=Station.key_schema,
             value_schema=Station.value_schema,
-            num_partitions=10,
+            num_partitions=2,
             num_replicas=2,
         )
 

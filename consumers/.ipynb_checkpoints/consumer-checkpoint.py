@@ -93,7 +93,7 @@ class KafkaConsumer:
                 if message.error() is None:
                     self.message_handler(message)
                     return 1
-                else 
+                elif
                 logger.error(f"error from consumer {message.error()}")
                 return 0
             else:
