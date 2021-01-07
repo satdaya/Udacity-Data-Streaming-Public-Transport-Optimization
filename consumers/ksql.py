@@ -32,7 +32,7 @@ CREATE TABLE turnstile (
     KEY = 'station_id'
 );
 
-CREATE TABLE turnstile_summary
+CREATE TABLE TURNSTILE_SUMMARY
 WITH (value='JSON') AS
     SELECT
       ,DISTINCT station_id \

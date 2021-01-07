@@ -93,14 +93,15 @@ class KafkaConsumer:
                 if message.error() is None:
                     self.message_handler(message)
                     return 1
-                elif
-                logger.error(f"error from consumer {message.error()}")
-                return 0
+                else:
+                    logger.error(f"error from consumer {message.error()}")
+                    return 0
             else:
                 logger.info("no message received")
-                
-        #logger.info("_consume is incomplete - skipping")
-        #return 0
+                return 0
+        except SerializerError as e:
+            logger.error(f"error consuming data {e.message}")
+            return 0
 
 
     def close(self):

@@ -20,8 +20,5 @@ class Weather:
         if weather in message.topic:
             self.temperature = value["temperature"]
             self.status = value["status"]
-        logger.info(f"the weather is currently {self.temperature} and {self.status})
-        else:
-            logger.debug(
-                "unable to determine weather", message.topic
-            )
+            logger.info(f"the weather is currently {self.temperature} and {self.status}")
+        #else logger.debug("unable to determine weather", message.topic)
