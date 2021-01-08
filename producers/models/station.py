@@ -37,13 +37,13 @@ class Station(Producer):
         # replicas
         #
         #
-        station_info = f"{com.chicago.station.info}" # TODO: Come up with a better topic name
+        #station_info = f"{com.chicago.station.info}" # TODO: Come up with a better topic name
         super().__init__(
-            topic = com.chicago.station_info,
+            "com.chicago.station_info",
             key_schema=Station.key_schema,
             value_schema=Station.value_schema,
             num_partitions=2,
-            num_replicas=2,
+            num_replicas=1,
         )
 
         self.station_id = int(station_id)
@@ -62,18 +62,18 @@ class Station(Producer):
         # TODO: Complete this function by producing an arrival message to Kafka
         #
         #
-        logger.info("arrival kafka integration incomplete - skipping")
+        #logger.info("arrival kafka integration incomplete - skipping")
         self.producer.produce(
             topic=self.topic_name,
             key={"timestamp": self.time_millis()},
             value={
                  "station_id": self.station_id,
-                 "train_id": train_id,
+                 "train_id": train.train_id,
                  "direction": direction,
-                 "line": self.color_name,
-                 "train status": train.status.name,
+                 "line": self.color.name,
+                 "train_status": train.status.name,
                  "prev_station_id": prev_station_id,
-                 "prev_direction" prev_direction
+                 "prev_direction": prev_direction
                   }
                 )
 

@@ -1,23 +1,27 @@
 {
 
-  "namespace": "com.udacity",
   "type": "record",
   "name": "turnstile.value",
+  "namespace": "com.udacity.turnstile",
   "fields": [
     {
       "name": "station_id",
-      "type": "str"
+      "type": "string"
     }
       ,
     {
       "name": "station_name",
-      "type": "str"
+      "type": "string"
     }
       ,
     {
       "name": "line",
-      "type": "str"
+      "type": 
+        {"name": "colors",
+         "type": "enum",
+         "symbols": ["blue", "green", "red"]
+        }
     }
-      ,
   ]
+}
 

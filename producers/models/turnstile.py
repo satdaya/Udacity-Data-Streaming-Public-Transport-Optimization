@@ -19,7 +19,7 @@ class Turnstile(Producer):
     #
     value_schema = avro.load(
         f"{Path(__file__).parents[0]}/schemas/turnstile_value.json"
-    #)
+    )
 
     def __init__(self, station):
         """Create the Turnstile"""
@@ -38,11 +38,11 @@ class Turnstile(Producer):
         #
         #
         super().__init__(
-            f"{com.udacity.turnstile}", # TODO: Come up with a better topic name
+            topic_name = "com.udacity.turnstile", # TODO: Come up with a better topic name
             key_schema=Turnstile.key_schema,
-            value_schema=Turnstile.value_schema, T#ODO: Uncomment once schema is defined
+            value_schema=Turnstile.value_schema, #TODO: Uncomment once schema is defined
             num_partitions=2,
-            num_replicas=2,
+            num_replicas=1,
         )
         self.station = station
         self.turnstile_hardware = TurnstileHardware(station)
@@ -50,13 +50,13 @@ class Turnstile(Producer):
     def run(self, timestamp, time_step):
         """Simulates riders entering through the turnstile."""
         num_entries = self.turnstile_hardware.get_entries(timestamp, time_step)
-        for pass in range(num_entries):
+        for entry in range(num_entries):
             self.producer.produce(
-                topic=f'com.udacity.turnstile'
-                key={'timestamp': self.time.millis()}
+                topic=f'com.udacity.turnstile',
+                key={'timestamp': self.time.millis()},
                 value={
                     "station_id": self.station_id,
-                    'station_name' = self.station.name
-                    "line": self.color_name
+                    'station_name': self.station.name,
+                    "line": self.color_name,
                 }
         )

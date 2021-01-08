@@ -41,7 +41,7 @@ class Producer:
         #
         self.broker_properties = {
             "bootstrap.servers": BROKER_URL,
-            "schema_registry.uri": SCHEMA_REGISTRY_URL, 
+            #"schema_registry.uri": SCHEMA_REGISTRY_URL, 
             # TODO
             # unclear if I need an additional config
         }
@@ -52,17 +52,16 @@ class Producer:
             Producer.existing_topics.add(self.topic_name)
 
         # TODO: Configure the AvroProducer
-        # done
+        
         self.producer = AvroProducer(
-            {
-                self.broker_properties,
-                schema_registry = SCHEMA_REGISTRY_URL,
-                default.key_schema = self.key_schema,
-                default.value_schema = self.value_schema,
-             
-                
-            }
-         )
+        {
+            "bootstrap.servers": "localhost:9092",
+            "group.id": "udacity",
+            "schema.registry.url": "http://localhost:8081"
+        },
+            default_key_schema=self.key_schema,
+            default_value_schema=self.value_schema
+        )
 
     def create_topic(self):
         """Creates the producer topic if it does not already exist"""
@@ -71,33 +70,36 @@ class Producer:
         # TODO: Write code that creates the topic for this producer if it does not already exist on
         # the Kafka Broker.
         # draft
-        client = AdminClient({"bootstrap.servers": self.broker_properties[BROKER_URL]})
+        client = AdminClient({"bootstrap.servers": BROKER_URL})
         
         topic_existence = client.list_topics(timeout=5)
-        if self.topic_existence in topic_existence.topics:
-            logger.info(f"topic already exists {self.topic_existence}")
-            
-        else
-        futures = client.create_topics(
-        [
+        if self.topic_name in set(
+            a.topic for a in iter(topic_existence.topics.values())
+        ):
+            logger.info(f"topic already exists {self.topic_name}")
+            return
+        
+        else:
+            futures = client.create_topics([
             # TODO
             NewTopic(
-                topic=topic_name,
+                topic=self.topic_name,
                 num_partitions=self.num_partitions,
-                replication_factor=self.replication_factor,
+                replication_factor=self.num_replicas,
                 config={
                     "cleanup.policy": "delete",
                     "compression.type": "lz4",
                     "delete.retention.ms": "2000",
                     "file.delete.delay.ms": "2000"
-                }
-                
+                      }
+                    )
+            ])
         for topic, future in futures.items():
-        try:
-            future.result()
-            print("topic created")
-        except Exception as e:
-            print(f"failed to create topic {topic_name}: {e}")
+            try:
+                future.result()
+                print("topic created")
+            except Exception as e:
+                print(f"failed to create topic {self.topic_name}: {e}")
         
         #
         #
