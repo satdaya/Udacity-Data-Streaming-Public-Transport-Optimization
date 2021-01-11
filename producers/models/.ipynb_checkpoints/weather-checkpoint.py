@@ -33,7 +33,7 @@ class Weather(Producer):
         # TODO: Complete the below by deciding on a topic name, number of partitions, and number of
         # replicas
         super().__init__(
-            "com.udacity.weather",
+            topic_name = "com.udacity.weather",
             key_schema=Weather.key_schema,
             value_schema=Weather.value_schema,
             num_partitions = 2,
@@ -86,7 +86,7 @@ class Weather(Producer):
                            {
                             "key": {"timestamp": self.time_millis()},
                             "value:": {"temperature": self.temp,
-                                       "status": self.status.name},
+                                       "status": self.status.name,},
                            }
                          ],
                 }
