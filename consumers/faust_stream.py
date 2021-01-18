@@ -39,7 +39,7 @@ out_topic = app.topic("com.chicago.station_info.table.v1", partitions=1)
 # TODO: Define a Faust Table
 table = app.Table(
     # "TODO",
-    "chicago.station_info.table.v1",
+    "com.chicago.station_info.table.v1",
     default=TransformedStation,
     partitions=1,
     changelog_topic=out_topic,
@@ -55,21 +55,21 @@ table = app.Table(
 #
 @app.agent(topic)
 async def transform_station(stations):
-    async for station in stations:
-        if station.red:
+    async for col in stations:
+        if col.red is True:
             line = "red"
-        elif station. green:
+        elif col.green is True:
             line = "green"
-        elif station.blue:
+        elif col.blue:
             line = "blue"
         else:
             line = "n/a"
     
-    transformed_station[station.station_id] = TransformedStation(
-        station.station_id,
-        station.name,
-        station.order,
-        line)
+    table[col.station_id] = TransformedStation(
+        station_id = col.station_id,
+        station_name = col.station_name,
+        order = col.order,
+        line = line)
     
 if __name__ == "__main__":
     app.main()
