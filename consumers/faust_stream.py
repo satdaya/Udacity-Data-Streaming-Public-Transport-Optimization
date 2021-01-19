@@ -54,22 +54,23 @@ table = app.Table(
 #
 #
 @app.agent(topic)
-async def transform_station(stations):
-    async for col in stations:
-        if col.red is True:
+async def transform_station(stream):
+    async for clr in stream:
+        if clr.red is True:
             line = "red"
-        elif col.green is True:
+        elif clr.green is True:
             line = "green"
-        elif col.blue:
+        elif clr.blue is True:
             line = "blue"
         else:
             line = "n/a"
     
-    table[col.station_id] = TransformedStation(
-        station_id = col.station_id,
-        station_name = col.station_name,
-        order = col.order,
-        line = line)
+    table[clr.station_id] = TransformedStation(
+        station_id=clr.station_id,
+        station_name=clr.station_name,
+        order=clr.order,
+        line=line,
+    )
     
 if __name__ == "__main__":
     app.main()
