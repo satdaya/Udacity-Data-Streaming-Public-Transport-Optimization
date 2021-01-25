@@ -47,7 +47,7 @@ def run_server():
         )
         exit(1)
 
-    if topic_check.topic_pattern_match("stations.table") is False:
+    if topic_check.topic_pattern_match("com.chicago.lines.faust") is False:
         logger.fatal(
             "Ensure that Faust Streaming is running successfully before running the web server!"
         )
@@ -64,18 +64,18 @@ def run_server():
     # Build kafka consumers
     consumers = [
         KafkaConsumer(
-            "(\w*|\.)*weather(.(\w*|\.))*",
+            "com.udacity.weather",
             weather_model.process_message,
             offset_earliest=True,
         ),
         KafkaConsumer(
-            "(\w*|\.)*stations.table(.(\w*|\.))",
+            "com.chicago.lines.faust",
             lines.process_message,
             offset_earliest=True,
             is_avro=False,
         ),
         KafkaConsumer(
-            "(\w*|\.)*station.arrivals.(.(\w*|\.))*",
+            "com.chicago.station_info",
             lines.process_message,
             offset_earliest=True,
         ),

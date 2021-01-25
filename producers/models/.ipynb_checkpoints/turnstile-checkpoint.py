@@ -1,6 +1,7 @@
 """Creates a turnstile data producer"""
 import logging
 from pathlib import Path
+import time
 
 from confluent_kafka import avro
 
@@ -13,10 +14,6 @@ logger = logging.getLogger(__name__)
 
 class Turnstile(Producer):
     key_schema = avro.load(f"{Path(__file__).parents[0]}/schemas/turnstile_key.json")
-
-    #
-    # TODO: Define this value schema in `schemas/turnstile_value.json, then uncomment the below
-    #
     value_schema = avro.load(
         f"{Path(__file__).parents[0]}/schemas/turnstile_value.json"
     )
@@ -52,11 +49,11 @@ class Turnstile(Producer):
         num_entries = self.turnstile_hardware.get_entries(timestamp, time_step)
         for entry in range(num_entries):
             self.producer.produce(
-                topic=f'com.udacity.turnstile',
-                key={'timestamp': self.time.millis()},
+                topic=self.topic_name,
+                key={'timestamp': self.time_millis()},
                 value={
-                    "station_id": self.station_id,
-                    'station_name': self.station.name,
-                    "line": self.color_name,
-                }
+                    "station_id": self.station.station_id,
+                    "station_name": self.station.name,
+                    "line": self.station.color.name,
+                },
         )

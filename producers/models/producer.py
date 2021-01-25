@@ -24,7 +24,7 @@ class Producer:
         key_schema,
         value_schema=None,
         num_partitions=2,
-        num_replicas=2,
+        num_replicas=1,
     ):
         """Initializes a Producer object with basic settings"""
         self.topic_name = topic_name
@@ -40,8 +40,8 @@ class Producer:
         #
         #
         self.broker_properties = {
-            "bootstrap.servers": BROKER_URL,
-            #"schema_registry.uri": SCHEMA_REGISTRY_URL, 
+            "bootstrap.servers": "PLAINTEXT://localhost:9092",
+            "schema_registry.url": "http://localhost:8081"
             # TODO
             # unclear if I need an additional config
         }
@@ -115,11 +115,7 @@ class Producer:
         # TODO: Write cleanup code for the Producer here
         #
         #
-        if self.producer is not none:
+        if self.producer is not None:
                 self.producer.flush()
         logger.info("the producer has been cleaned up")       
         #logger.info("producer close incomplete - skipping")
-
-    def time_millis(self):
-        """Use this function to get the key for Kafka Events"""
-        return int(round(time.time() * 1000))

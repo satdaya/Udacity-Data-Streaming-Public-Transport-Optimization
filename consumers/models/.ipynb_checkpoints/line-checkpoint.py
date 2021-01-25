@@ -56,7 +56,7 @@ class Line:
 
     def process_message(self, message):
         """Given a kafka message, extract data"""
-        if message.topic() == "chicago.station_info.table.v1":
+        if message.topic() == "com.chicago.lines.faust":
             try:
                 value = json.loads(message.value())
                 self._handle_station(value)
