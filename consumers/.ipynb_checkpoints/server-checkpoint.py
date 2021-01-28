@@ -47,7 +47,7 @@ def run_server():
         )
         exit(1)
 
-    if topic_check.topic_pattern_match("com.chicago.lines.faust") is False:
+    if topic_check.topic_pattern_match("com.chicago.lines.stations.faust") is False:
         logger.fatal(
             "Ensure that Faust Streaming is running successfully before running the web server!"
         )
